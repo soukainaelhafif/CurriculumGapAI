@@ -1,0 +1,33 @@
+# *** WEB FRAMEWORK ***
+# FastAPI = baut API (verbindet Frontend mit Backend)
+fastapi==0.111.0
+# Uvicorn = startet den Server (macht die App erreichbar)
+uvicorn==0.29.0
+
+
+# *** PDF VERARBEITUNG ***
+# pdfplumber = liest PDFs aus
+pdfplumber==0.11.0
+# PyPDF2 = backup PDF reader
+PyPDF2==3.0.1
+
+# *** NLP (Text verstehen) ***
+# spaCy = erkennt Skills & Technologien im Text
+spacy==3.7.4
+
+# *** SCRAPER (Jobmarkt Daten holen) ***
+# requests = surft im Internet (wie ein unsichtbarer Browser)
+requests==2.31.0
+# beautifulsoup4 = liest HTML und filtert wichtige Daten raus
+beautifulsoup4==4.12.3
+
+# *** DATEN VERARBEITUNG ***
+# pandas = verarbeitet und analysiert Daten
+pandas==2.2.2
+
+
+
+# python-multipart = ermöglicht PDF Upload in der App
+python-multipart==0.0.9
+# python-dotenv = speichert API Keys sicher (nicht im Code!)
+python-dotenv==1.0.1
