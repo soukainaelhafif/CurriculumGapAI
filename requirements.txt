@@ -1,10 +1,8 @@
 fastapi
 uvicorn
-pdfplumber
 PyPDF2
 python-dotenv
 requests
 sqlalchemy
 psycopg2-binary
-pymongo
 python-multipart
