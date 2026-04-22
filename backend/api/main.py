@@ -41,10 +41,18 @@ async def analyze_pdf(file: UploadFile = File(...)):
             db.close()
         except:
             pass
+            
+        empfehlung = ""
+        try:
+            from backend.llm.recommendation import get_recommendation
+            empfehlung = get_recommendation(gap, matching)
+        except:
+            pass
 
         return {
             "fehlende_skills": gap,
-            "vorhandene_skills": matching
+            "vorhandene_skills": matching,
+            "empfehlung": empfehlung
         }
     except Exception as e:
         return JSONResponse(
