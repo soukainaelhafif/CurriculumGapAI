@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CurriculumGapAI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #1a1035;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(12px) brightness(0.4) saturate(0.6);
+            z-index: 0;
+            transform: scale(1.1);
+        }
+
+        .container {
+            background: rgba(20, 10, 50, 0.88);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(150, 100, 255, 0.3);
+            border-radius: 24px;
+            padding: 40px;
+            width: 650px;
+            box-shadow: 0 25px 60px rgba(80, 40, 180, 0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .header h1 span {
+            background: linear-gradient(135deg, #a78bfa, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            color: rgba(200, 180, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        .upload-area {
+            border: 2px dashed rgba(150, 100, 255, 0.5);
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            background: rgba(100, 60, 200, 0.08);
+        }
+
+        .upload-area:hover {
+            border-color: #a78bfa;
+            background: rgba(100, 60, 200, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .upload-area.uploaded {
+            border-color: #44bb44;
+            background: rgba(68, 187, 68, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .upload-area p {
+            color: rgba(220, 200, 255, 0.8);
+            font-size: 1rem;
+        }
+
+        .file-name {
+            margin-top: 10px;
+            color: #44bb44;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.5);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: rgba(200, 180, 255, 0.7);
+            margin-top: 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(150, 100, 255, 0.2);
+            border-top: 3px solid #a78bfa;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        #result {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: rgba(100, 60, 200, 0.15);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(150, 100, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #a78bfa;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: rgba(200, 180, 255, 0.5);
+            margin-top: 4px;
+        }
+
+        .skills-section {
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .gap-section {
+            background: rgba(255, 68, 68, 0.08);
+            border: 1px solid rgba(255, 68, 68, 0.25);
+        }
+
+        .match-section {
+            background: rgba(68, 187, 68, 0.08);
+            border: 1px solid rgba(68, 187, 68, 0.25);
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .gap-section .section-title { color: #ff6b6b; }
+        .match-section .section-title { color: #51cf66; }
+
+        .skill-tag {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .gap-tag {
+            background: rgba(255, 68, 68, 0.12);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 68, 68, 0.25);
+        }
+
+        .match-tag {
+            background: rgba(68, 187, 68, 0.12);
+            color: #51cf66;
+            border: 1px solid rgba(68, 187, 68, 0.25);
+        }
+
+        .made-by {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(200, 180, 255, 0.3);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 <span>CurriculumGapAI</span></h1>
+            <p>Analysiere dein Modulhandbuch vs. Jobmarkt 2025</p>
+        </div>
+
+        <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-icon" id="uploadIcon">📄</div>
+            <p id="uploadText">PDF hier klicken oder ablegen</p>
+            <div class="file-name" id="fileName"></div>
+            <input type="file" id="fileInput" accept=".pdf" style="display:none" onchange="fileSelected()">
+        </div>
+
+        <button onclick="analyze()" id="analyzeBtn">🔍 Jetzt Analysieren</button>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Analysiere dein Modulhandbuch...</p>
+        </div>
+
+        <div id="result">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="gapCount">0</div>
+                    <div class="stat-label">Fehlende Skills</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="matchCount">0</div>
+                    <div class="stat-label">Vorhandene Skills</div>
+                </div>
+            </div>
+
+            <div class="skills-section gap-section">
+                <div class="section-title">❌ Fehlende Skills im Jobmarkt</div>
+                <div id="gapSkills"></div>
+            </div>
+
+            <div class="skills-section match-section">
+                <div class="section-title">✅ Skills die du schon lernst</div>
+                <div id="matchingSkills"></div>
+            </div>
+        </div>
+
+        <div class="made-by">Built by Soukaina Elhafif — h_da Informatik</div>
+    </div>
+
+    <script>
+        function fileSelected() {
+            const file = document.getElementById('fileInput').files[0];
+            if (file) {
+                document.getElementById('uploadArea').classList.add('uploaded');
+                document.getElementById('uploadIcon').innerHTML = '✅';
+                document.getElementById('uploadText').innerHTML = 'PDF erfolgreich hochgeladen!';
+                document.getElementById('fileName').style.display = 'block';
+                document.getElementById('fileName').innerHTML = '📎 ' + file.name;
+            }
+        }
+
+        async function analyze() {
+            const file = document.getElementById('fileInput').files[0];
+            if (!file) {
+                alert('Bitte zuerst ein PDF hochladen!');
+                return;
+            }
+
+            document.getElementById('analyzeBtn').disabled = true;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('https://curriculumgapai-production.up.railway.app/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                document.getElementById('gapCount').innerHTML = data.fehlende_skills.length;
+                document.getElementById('matchCount').innerHTML = data.vorhandene_skills.length;
+
+                document.getElementById('gapSkills').innerHTML =
+                    data.fehlende_skills.map(s =>
+                        `<span class="skill-tag gap-tag">${s}</span>`
+                    ).join('');
+
+                document.getElementById('matchingSkills').innerHTML =
+                    data.vorhandene_skills.map(s =>
+                        `<span class="skill-tag match-tag">${s}</span>`
+                    ).join('');
+
+                document.getElementById('result').style.display = 'block';
+            } catch(e) {
+                alert('Fehler! Ist der Server gestartet?');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('analyzeBtn').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
