@@ -4,7 +4,8 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import os
 
-DATABASE_URL = "postgresql://soukainaelhafif@localhost/curriculumgapai"
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://soukainaelhafif@localhost/curriculumgapai")
+
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)
