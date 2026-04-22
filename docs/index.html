@@ -287,6 +287,10 @@
             </div>
         </div>
 
+        <div class="skills-section" id="empfehlungSection" style="background: rgba(100, 60, 200, 0.08); border: 1px solid rgba(150, 100, 255, 0.25); display: none;">
+                <div class="section-title" style="color: #a78bfa;">🤖 AI Empfehlung</div>
+                <p id="empfehlung" style="color: rgba(220, 200, 255, 0.8); line-height: 1.6; white-space: pre-line;"></p>
+        </div>
         <div class="made-by">Built by Soukaina Elhafif — h_da Informatik</div>
     </div>
 
@@ -338,6 +342,10 @@
                     ).join('');
 
                 document.getElementById('result').style.display = 'block';
+                if (data.empfehlung && data.empfehlung !== "Fehler: 429" && data.empfehlung !== "Keine API Key gefunden") {
+                    document.getElementById('empfehlung').innerHTML = data.empfehlung;
+                    document.getElementById('empfehlungSection').style.display = 'block';
+                }
             } catch(e) {
                 alert('Fehler! Ist der Server gestartet?');
             } finally {
