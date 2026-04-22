@@ -1,14 +1,14 @@
-import pdfplumber
+import PyPDF2
 import re
 
-def extract_text_from_pdf(pdf_path):
-    """Liest Text aus einer PDF Datei"""
+def extract_text_from_pdf(pdf_file):
     text = ""
-    
-    with pdfplumber.open(pdf_path) as pdf:
-        for page in pdf.pages:
+    try:
+        reader = PyPDF2.PdfReader(pdf_file)
+        for page in reader.pages:
             text += page.extract_text() or ""
-    
+    except:
+        pass
     return text
 
 def extract_skills(text):
