@@ -2,10 +2,19 @@ import re
 from backend.parsers.pdf_parser import extract_skills
 
 JOBMARKET_SKILLS = [
-    "Python", "Java", "JavaScript", "SQL", "PostgreSQL",
-    "MongoDB", "Docker", "Kubernetes", "Git", "Linux",
-    "Machine Learning", "Deep Learning", "TensorFlow",
-    "React", "FastAPI", "AWS", "Azure", "CI/CD"
+    # Programming Languages
+    "Python", "Java", "JavaScript", "TypeScript", "C++", "C#", "Go", "Rust", "Kotlin", "Swift",
+    # Web Development
+    "React", "Angular", "Vue", "Node.js", "FastAPI", "Django", "Spring Boot", "HTML", "CSS",
+    # Data & AI
+    "Machine Learning", "Deep Learning", "TensorFlow", "PyTorch", "Pandas", "NumPy", "Scikit-learn",
+    "Computer Vision", "NLP", "LLM", "ChatGPT API",
+    # Databases
+    "SQL", "PostgreSQL", "MySQL", "MongoDB", "Redis", "Elasticsearch",
+    # DevOps & Cloud
+    "Docker", "Kubernetes", "Git", "Linux", "AWS", "Azure", "Google Cloud", "CI/CD", "Jenkins",
+    # Other
+    "REST API", "GraphQL", "Microservices", "Agile", "Scrum"
 ]
 
 def find_skill_gap(curriculum_skills, jobmarket_skills):
