@@ -20,12 +20,6 @@ app.add_middleware(
 def home():
     return {"message": "CurriculumGapAI läuft!"}
 
-@app.get("/check")
-def check():
-    import os
-    key = os.getenv("OPENAI_API_KEY", "NICHT GEFUNDEN")
-    return {"key_exists": key != "NICHT GEFUNDEN", "key_start": key[:10] if key != "NICHT GEFUNDEN" else "none"}
-
 @app.post("/analyze")
 async def analyze_pdf(file: UploadFile = File(...)):
     try:

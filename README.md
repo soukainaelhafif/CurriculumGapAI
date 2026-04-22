@@ -1,11 +1,12 @@
 # 🎓 CurriculumGapAI
 
-> AI-powered tool that analyzes university curricula and compares them to real job market demands — revealing the skill gaps students need to close.
+> AI-powered tool that analyzes university curricula and compares them to real job market demands — powered by OpenAI GPT.
 
-![Python](https://img.shields.io/badge/Python-3.13-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.119-green)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue)
-![MongoDB](https://img.shields.io/badge/MongoDB-8.2-green)
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-latest-green)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-blue)
+![OpenAI](https://img.shields.io/badge/OpenAI-GPT--3.5-orange)
+![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-blue)
 
 ---
 
@@ -13,10 +14,11 @@
 
 Upload your university module handbook (PDF) and CurriculumGapAI will:
 
-1. **Extract** all skills and topics from your curriculum
-2. **Compare** them to current job market demands
+1. **Extract** all skills and topics from your curriculum using PyPDF2
+2. **Compare** them to 50+ current job market skills
 3. **Show** exactly which skills you're missing
-4. **Save** all analyses to a database for tracking
+4. **Recommend** what to learn next using OpenAI GPT
+5. **Save** all analyses to PostgreSQL for tracking
 
 ---
 
@@ -24,76 +26,71 @@ Upload your university module handbook (PDF) and CurriculumGapAI will:
 
 | Layer | Technology |
 |-------|-----------|
-| Backend | Python, FastAPI |
-| PDF Parser | pdfplumber, PyPDF2 |
-| NLP | Custom skill extractor |
+| Backend | Python 3.12, FastAPI |
+| PDF Parser | PyPDF2 |
+| NLP | Custom skill extractor (50+ skills) |
+| LLM | OpenAI GPT-3.5 Turbo |
 | Job Market Data | Adzuna API |
 | Database SQL | PostgreSQL + SQLAlchemy |
 | Database NoSQL | MongoDB + PyMongo |
 | Frontend | HTML, CSS, JavaScript |
+| Deployment | Railway (Backend) + GitHub Pages (Frontend) |
+| CI/CD | GitHub Actions + pytest |
 
 ---
 
-## 📊 Example Output
+## 🌍 Live Demo
 
-✅ Skills you already have: Python, Java, SQL
-❌ Missing skills: Docker, AWS, React, Machine Learning...
-
-
----
-
-## 🏃 How to run
-
-```bash
-# Clone the repository
-git clone https://github.com/soukainaelhafif/CurriculumGapAI.git
-cd CurriculumGapAI
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Start the server
-python3 -m uvicorn backend.api.main:app --reload
-
-# Open the app
-open frontend/static/index.html
-```
+- **Frontend:** [soukainaelhafif.github.io/CurriculumGapAI](https://soukainaelhafif.github.io/CurriculumGapAI/)
+- **API Docs:** [curriculumgapai-production.up.railway.app/docs](https://curriculumgapai-production.up.railway.app/docs)
 
 ---
 
 ## 📁 Project Structure
-
 CurriculumGapAI/
 ├── backend/
-│   ├── api/          # FastAPI endpoints
-│   ├── parsers/      # PDF extraction
-│   ├── nlp/          # Skill analysis
-│   ├── scraper/      # Job market data
-│   └── database.py   # PostgreSQL connection
-├── frontend/
-│   └── static/       # HTML/CSS/JS
-└── data/
-├── raw/          # Uploaded PDFs
-└── processed/    # Analysis results
+│   ├── api/main.py          # FastAPI endpoints
+│   ├── parsers/pdf_parser.py # PDF text extraction
+│   ├── nlp/skill_extractor.py # Skill gap analysis
+│   ├── llm/recommendation.py # OpenAI GPT integration
+│   ├── scraper/job_scraper.py # Adzuna job market data
+│   ├── database.py           # PostgreSQL connection
+│   └── mongodb.py            # MongoDB connection
+├── frontend/static/
+│   └── index.html            # Web UI
+├── docs/                     # GitHub Pages
+├── tests/
+│   └── test_api.py           # pytest tests
+├── .github/workflows/
+│   └── ci.yml                # CI/CD pipeline
+├── Procfile                  # Railway deployment
+├── requirements.txt
+└── README.md
 
+---
+
+## 🏃 How to run locally
+
+```bash
+git clone https://github.com/soukainaelhafif/CurriculumGapAI.git
+cd CurriculumGapAI
+pip install -r requirements.txt
+uvicorn backend.api.main:app --reload
+```
 
 ---
 
 ## 👩‍💻 Built by
 
 **Soukaina Elhafif**
-Informatik Student @ h_da Darmstadt
+Informatik Student (5th Semester) @ h_da Darmstadt
 [LinkedIn](https://www.linkedin.com/in/soukaina-elhafif/) | [GitHub](https://github.com/soukainaelhafif)
 
 ---
-
-
-*Built as part of a BuildInPublic challenge — from idea to deployment in 7 days.*
 
 ## 💡 Why I built this
 
 As a 5th semester Informatik student at h_da Darmstadt, I kept asking myself:
 *"Am I learning the right things? Will my degree prepare me for the real job market?"*
 
-So I built CurriculumGapAI to answer exactly that question — not just for me, 
-but for every student who wonders the same thing.
+So I built CurriculumGapAI to answer exactly that question — not just for me, but for every student who wonders the same thing.
