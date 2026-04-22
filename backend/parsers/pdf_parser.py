@@ -1,23 +1,27 @@
-import pdfplumber
+import PyPDF2
 import re
 
-def extract_text_from_pdf(pdf_path):
-    """Liest Text aus einer PDF Datei"""
+def extract_text_from_pdf(pdf_file):
     text = ""
-    
-    with pdfplumber.open(pdf_path) as pdf:
-        for page in pdf.pages:
+    try:
+        reader = PyPDF2.PdfReader(pdf_file)
+        for page in reader.pages:
             text += page.extract_text() or ""
-    
+    except:
+        pass
     return text
 
 def extract_skills(text):
     """Findet Skills im Text"""
     
     skills = [
-        "Python", "Java", "JavaScript", "SQL", "Machine Learning",
-        "Deep Learning", "Docker", "Git", "React", "FastAPI",
-        "TensorFlow", "PyTorch", "Pandas", "NumPy", "Linux"
+       "Python", "Java", "JavaScript", "TypeScript", "C++", "C#", "Go", "Rust", "Kotlin", "Swift",
+        "React", "Angular", "Vue", "Node.js", "FastAPI", "Django", "Spring Boot", "HTML", "CSS",
+        "Machine Learning", "Deep Learning", "TensorFlow", "PyTorch", "Pandas", "NumPy", "Scikit-learn",
+        "Computer Vision", "NLP", "LLM", "ChatGPT API",
+        "SQL", "PostgreSQL", "MySQL", "MongoDB", "Redis", "Elasticsearch",
+        "Docker", "Kubernetes", "Git", "Linux", "AWS", "Azure", "Google Cloud", "CI/CD", "Jenkins",
+        "REST API", "GraphQL", "Microservices", "Agile", "Scrum"
     ]
     
     found_skills = []
